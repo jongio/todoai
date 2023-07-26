@@ -3,7 +3,8 @@
   "image": "mcr.microsoft.com/dotnet/sdk:7.0",
   "features": {
     "ghcr.io/devcontainers/features/node": {},
-    "ghcr.io/devcontainers/features/github-cli": {}
+    "ghcr.io/devcontainers/features/github-cli": {},
+    "ghcr.io/devcontainers/features/azure-cli": {}
   },
   "forwardPorts": [
     3000,
@@ -14,7 +15,8 @@
     "vscode": {
       "extensions": [
         "ms-dotnettools.csharp",
-        "dbaeumer.vscode-eslint"
+        "dbaeumer.vscode-eslint",
+        "ms-azuretools.vscode-bicep"
       ]
     }
   }

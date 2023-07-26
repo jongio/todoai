@@ -59,6 +59,30 @@ npm start
 
 This will start the React app on port 3000. It should automatically open in your default web browser, but if it doesn't, you can manually navigate to `http://localhost:3000`. The app will also automatically reload if you make changes to the source code.
 
+### Provisioning Azure Resources
+
+To provision Azure resources required for this project, run the provision.sh script located in the /scripts folder. You can specify named parameters or the script will prompt you for these values:
+
+1. `-l` or `--location`: The Azure region where resources will be deployed (default: West US 2)
+2. `-g` or `--resource-group`: The name of the Azure resource group (default: MyResourceGroup)
+3. `-a` or `--app-name`: The base name for the web apps that will be created (default: MyAppName)
+4. `-e` or `--environment`: The environment for the web apps (default: dev)
+5. `-s` or `--subscription-id`: The subscription id where the resources will be deployed.
+
+Before running the script, make sure you are logged into Azure. The script will run `az login` to initiate the login process if you are not already logged in. It will also list the available subscriptions and prompt for a subscription ID if it was not provided as a parameter.
+
+The command can be executed from the root of the project as follows:
+
+```bash
+./scripts/provision.sh -l <location> -g <resource-group-name> -a <app-name> -e <environment> -s <subscription-id>
+```
+
+If you want to know more details about how to use the script, you can use the `-h` or `--help` option:
+
+```bash
+./scripts/provision.sh --help
+```
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
