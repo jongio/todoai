@@ -18,7 +18,8 @@
       "extensions": [
         "ms-dotnettools.csharp",
         "dbaeumer.vscode-eslint",
-        "ms-azuretools.vscode-bicep"
+        "ms-azuretools.vscode-bicep",
+        "GitHub.vscode-github-actions"
       ]
     }
   }

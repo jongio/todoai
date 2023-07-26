@@ -5,6 +5,7 @@ on:
   push:
     branches: 
       - main
+      - dev2-afternoon
 
 env:
   AZURE_WEBAPP_NAME_API: ${{ vars.AZURE_WEBAPP_NAME_API }}
