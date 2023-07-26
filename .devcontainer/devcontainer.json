@@ -4,7 +4,9 @@
   "features": {
     "ghcr.io/devcontainers/features/node": {},
     "ghcr.io/devcontainers/features/github-cli": {},
-    "ghcr.io/devcontainers/features/azure-cli": {}
+    "ghcr.io/devcontainers/features/azure-cli": {},
+    "ghcr.io/dhoeric/features/act": {} ,
+    "ghcr.io/devcontainers/features/docker-in-docker": {}
   },
   "forwardPorts": [
     3000,

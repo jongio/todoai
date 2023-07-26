@@ -1,0 +1,59 @@
+name: Build and Deploy
+
+on:
+  workflow_dispatch:
+  push:
+    branches: 
+      - main
+
+env:
+  AZURE_WEBAPP_NAME_API: ${{ vars.AZURE_WEBAPP_NAME_API }}
+  AZURE_WEBAPP_NAME_WEB: ${{ vars.AZURE_WEBAPP_NAME_WEB }}
+  AZURE_WEBAPP_PUBLISH_PROFILE_API: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_API }}
+  AZURE_WEBAPP_PUBLISH_PROFILE_WEB: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_WEB }}
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '7.0.x'
+
+    - name: Build and publish API
+      run: |
+        cd src/api
+        dotnet publish --configuration Release --output ./output
+      env:
+        DOTNET_CLI_TELEMETRY_OPTOUT: '1'
+
+    - name: Deploy API to Azure
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.AZURE_WEBAPP_NAME_API }}
+        publish-profile: ${{ env.AZURE_WEBAPP_PUBLISH_PROFILE_API }}
+        package: ./src/api/output
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18'
+
+    - name: Build and publish Web
+      run: |
+        cd src/web
+        npm ci
+        npm run build
+      env:
+        CI: true
+
+    - name: Deploy Web to Azure
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.AZURE_WEBAPP_NAME_WEB }}
+        publish-profile: ${{ env.AZURE_WEBAPP_PUBLISH_PROFILE_WEB }}
+        package: ./src/web/build
