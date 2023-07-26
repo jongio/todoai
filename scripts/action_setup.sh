@@ -20,7 +20,7 @@ gh auth login
 az account set --subscription "$subscription"
 
 # Get API App publish profile
-apiPublishProfile=$(az webapp deployment list-publishing-profiles --name $apiAppName --resource-group $resourceGroup --query "[0]" --output json)
+apiPublishProfile=$(az webapp deployment list-publishing-profiles --name $apiAppName --resource-group $resourceGroup --xml --output tsv)
 
 # Write API App publish profile to file
 mkdir -p .publish
@@ -33,7 +33,7 @@ gh secret set AZURE_WEBAPP_PUBLISH_PROFILE_API -b"$(cat .publish/api_publish_pro
 gh variable set AZURE_WEBAPP_NAME_API --body "$apiAppName"
 
 # Get Web App publish profile
-webPublishProfile=$(az webapp deployment list-publishing-profiles --name $webAppName --resource-group $resourceGroup --query "[0]" --output json)
+webPublishProfile=$(az webapp deployment list-publishing-profiles --name $webAppName --resource-group $resourceGroup --xml --output tsv)
 
 # Write Web App publish profile to file
 echo $webPublishProfile > .publish/web_publish_profile.json
