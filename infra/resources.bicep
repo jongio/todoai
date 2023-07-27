@@ -29,6 +29,10 @@ resource apiApp 'Microsoft.Web/sites@2021-01-01' = {
           name: 'WEBSITE_RUN_FROM_PACKAGE'
           value: '1'
         }
+        {
+          name: 'ALLOWED_ORIGINS'
+          value: 'https://${webApp.properties.defaultHostName}'
+        }
       ]
     }
   }
@@ -43,8 +47,8 @@ resource webApp 'Microsoft.Web/sites@2021-01-01' = {
     serverFarmId: plan.id
     siteConfig: {
       linuxFxVersion: 'NODE|18-lts'
+      appCommandLine: 'npm install -g serve && serve'
       appSettings: [
-        
         {
           name: 'SCM_DO_BUILD_DURING_DEPLOYMENT'
           value: 'false'

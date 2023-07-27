@@ -2,15 +2,21 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddCors(options =>
+var configuration = builder.Configuration;
+
+var allowedOrigins = configuration["ALLOWED_ORIGINS"];
+if (!string.IsNullOrWhiteSpace(allowedOrigins))
 {
-    options.AddDefaultPolicy(policy =>
+    builder.Services.AddCors(options =>
     {
-        policy.WithOrigins("http://localhost:3000")
-               .AllowAnyHeader()
-               .AllowAnyMethod();
+        options.AddDefaultPolicy(policy =>
+        {
+            policy.WithOrigins(allowedOrigins)
+                   .AllowAnyHeader()
+                   .AllowAnyMethod();
+        });
     });
-});
+}
 
 var app = builder.Build();
 

@@ -5,17 +5,19 @@ function App() {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState('');
 
+  const baseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5071/api';
+
   useEffect(() => {
     fetchTodos();
   }, []);
 
   const fetchTodos = async () => {
-    const response = await axios.get('http://localhost:5071/api/todos');
+    const response = await axios.get(`${baseUrl}/todos`);
     setTodos(response.data);
   };
 
   const addTodo = async () => {
-    await axios.post('http://localhost:5071/api/todos', { name: newTodo });
+    await axios.post(`${baseUrl}/todos`, { name: newTodo });
     setNewTodo('');
     fetchTodos();
   };
