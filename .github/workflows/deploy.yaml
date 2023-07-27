@@ -19,10 +19,6 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
     
-      # Add this step
-    - name: Set up .env
-      run: echo "REACT_APP_API_BASE_URL=https://${{ vars.AZURE_WEBAPP_NAME_API }}.azurewebsites.net/api" > ./src/web/.env.production
-
     - name: Azure Login
       uses: azure/login@v1
       with:
@@ -50,6 +46,10 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: '18.x'
+
+      # Add this step
+    - name: Set up .env
+      run: echo "REACT_APP_API_BASE_URL=https://${{ env.AZURE_WEBAPP_NAME_API }}.azurewebsites.net/api" > ./src/web/.env.production
 
     - name: Build and publish Web
       run: |
