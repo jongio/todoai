@@ -22,7 +22,7 @@ resource apiApp 'Microsoft.Web/sites@2021-01-01' = {
   properties: {
     serverFarmId: plan.id
     siteConfig: {
-      linuxFxVersion: 'DOTNET|7.0'
+      linuxFxVersion: 'DOTNETCORE|7.0'
       appSettings: [
         {
           name: 'WEBSITE_RUN_FROM_PACKAGE'
