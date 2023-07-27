@@ -19,6 +19,7 @@ resource plan 'Microsoft.Web/serverfarms@2021-01-01' = {
 resource apiApp 'Microsoft.Web/sites@2021-01-01' = {
   name: '${appName}-${environment}-api'
   location: location
+  kind: 'app,linux'
   properties: {
     serverFarmId: plan.id
     siteConfig: {
@@ -37,18 +38,20 @@ resource apiApp 'Microsoft.Web/sites@2021-01-01' = {
 resource webApp 'Microsoft.Web/sites@2021-01-01' = {
   name: '${appName}-${environment}-web'
   location: location
+  kind: 'app,linux'
   properties: {
     serverFarmId: plan.id
     siteConfig: {
-      linuxFxVersion: 'NODE|18'
+      linuxFxVersion: 'NODE|18-lts'
       appSettings: [
+        
+        {
+          name: 'SCM_DO_BUILD_DURING_DEPLOYMENT'
+          value: 'false'
+        }
         {
           name: 'WEBSITE_RUN_FROM_PACKAGE'
           value: '1'
-        }
-        {
-          name: 'WEBSITE_NODE_DEFAULT_VERSION'
-          value: '18'
         }
       ]
     }
