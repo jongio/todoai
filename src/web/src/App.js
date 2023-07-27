@@ -1,24 +1,37 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 
 function App() {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState('');
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5071/api';
+
+  const fetchTodos = useCallback(async () => {
+    try {
+      const response = await axios.get(`${apiBaseUrl}/todos`);
+      setTodos(response.data);
+    } catch (error) {
+      console.error(`Failed to fetch todos: ${error}`);
+    }
+  }, [apiBaseUrl]);
+
+  const addTodo = async () => {
+    try {
+      const response = await axios.post(`${apiBaseUrl}/todos`, { name: newTodo });
+      if (response.status === 200) {
+        setNewTodo('');
+        fetchTodos();
+      } else {
+        console.error(`Failed to add todo: ${response.statusText}`);
+      }
+    } catch (error) {
+      console.error(`Failed to add todo: ${error}`);
+    }
+  };
 
   useEffect(() => {
     fetchTodos();
-  }, []);
-
-  const fetchTodos = async () => {
-    const response = await axios.get('http://localhost:5071/api/todos');
-    setTodos(response.data);
-  };
-
-  const addTodo = async () => {
-    await axios.post('http://localhost:5071/api/todos', { name: newTodo });
-    setNewTodo('');
-    fetchTodos();
-  };
+  }, [fetchTodos]);
 
   return (
     <div className="App">

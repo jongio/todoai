@@ -52,9 +52,7 @@ This will start the API on port 5000/5001 and it will automatically reload if yo
 Open a **new** terminal in VS Code (still in the DevContainer context) and run the following commands to navigate to the web project folder and start the React application:
 
 ```bash
-cd src/web
-npm install
-npm start
+cd src/web && npm install && npm start
 ```
 
 This will start the React app on port 3000. It should automatically open in your default web browser, but if it doesn't, you can manually navigate to `http://localhost:3000`. The app will also automatically reload if you make changes to the source code.

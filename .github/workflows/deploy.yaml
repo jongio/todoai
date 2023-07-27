@@ -10,8 +10,6 @@ on:
 env:
   AZURE_WEBAPP_NAME_API: ${{ vars.AZURE_WEBAPP_NAME_API }}
   AZURE_WEBAPP_NAME_WEB: ${{ vars.AZURE_WEBAPP_NAME_WEB }}
-  AZURE_WEBAPP_PUBLISH_PROFILE_API: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_API }}
-  AZURE_WEBAPP_PUBLISH_PROFILE_WEB: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_WEB }}
   AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
 
 jobs:
@@ -48,6 +46,10 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: '18.x'
+
+      # Add this step
+    - name: Set up .env
+      run: echo "REACT_APP_API_BASE_URL=https://${{ env.AZURE_WEBAPP_NAME_API }}.azurewebsites.net/api" > ./src/web/.env.production
 
     - name: Build and publish Web
       run: |
